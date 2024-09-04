@@ -1,8 +1,8 @@
 import React from "react";
 import { Redirect, Tabs } from "expo-router";
-import { Feather, FontAwesome6 } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 import { Colors } from "@/constants/Colors";
-import { ImageBackground, useColorScheme, View } from "react-native";
+import { useColorScheme } from "react-native";
 
 export default function TabLayout() {
   const session = true;
@@ -36,7 +36,7 @@ export default function TabLayout() {
             colorscheme === "dark"
               ? Colors.dark.background2
               : Colors.light.background2,
-          height: 72,
+          height: 64,
           position: "absolute",
           bottom: 20,
           borderRadius: 200,
