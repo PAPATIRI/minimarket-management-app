@@ -17,19 +17,15 @@ export default function TabLayout() {
       backBehavior={"history"}
       screenOptions={{
         tabBarActiveTintColor:
-          colorscheme === "dark"
-            ? Colors.dark.background2
-            : Colors.light.background2,
-        tabBarInactiveTintColor:
-          colorscheme === "dark"
-            ? Colors.dark.background2
-            : Colors.light.tabIconDefault,
-        tabBarActiveBackgroundColor:
           colorscheme === "dark" ? Colors.dark.tint2 : Colors.light.tint2,
+        tabBarInactiveTintColor:
+          colorscheme === "dark" ? "#fefefe" : Colors.light.tabIconDefault,
+        // tabBarActiveBackgroundColor:
+        //   colorscheme === "dark" ? Colors.dark.tint2 : Colors.light.tint2,
         tabBarItemStyle: {
           paddingVertical: 10,
-          borderRadius: 200,
-          position: "relative",
+          borderRadius: 20,
+          marginHorizontal: 30,
         },
         tabBarStyle: {
           backgroundColor:
@@ -39,6 +35,7 @@ export default function TabLayout() {
           height: 64,
           position: "absolute",
           bottom: 20,
+          overflow: "hidden",
           borderRadius: 200,
           marginHorizontal: 10,
         },

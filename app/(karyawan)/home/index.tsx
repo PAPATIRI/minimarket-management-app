@@ -1,5 +1,7 @@
 import { Colors } from "@/constants/Colors";
 import useBackgroundColor from "@/hooks/useBackgroundColorStyle";
+import useButtonBackgroundColor from "@/hooks/useButtonBackgroundColorStyle";
+import useTextColor from "@/hooks/useTextColorStyle";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import {
@@ -14,6 +16,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function HomePage() {
   const backgroundColorStyle = useBackgroundColor();
+  const buttonBackgroundColorStyle = useButtonBackgroundColor();
+  const textColorStyle = useTextColor();
   const colorScheme = useColorScheme();
   const buttonBackgroundColor =
     colorScheme === "dark" ? Colors.dark.background2 : Colors.light.background2;
@@ -21,19 +25,24 @@ export default function HomePage() {
 
   return (
     <SafeAreaView style={[styles.container, backgroundColorStyle]}>
-      <Text style={{ fontSize: 100 }}>🕵️‍♂️</Text>
-      <Text style={styles.desc}>scan barcode untuk cek harga barang</Text>
-      <TouchableOpacity
-        style={[styles.button, { backgroundColor: buttonBackgroundColor }]}
-        onPress={() => router.push("/(karyawan)/home/camera-view")}
-      >
-        <MaterialCommunityIcons
-          color={Colors.light.tint2}
-          name="barcode-scan"
-          size={24}
-        />
-        <Text style={styles.buttonText}>Scan Barcode</Text>
-      </TouchableOpacity>
+      <Text style={[styles.title, textColorStyle]}>Welcome Dika 👋</Text>
+      <View style={styles.contentWrapper}>
+        <Text style={{ fontSize: 100 }}>🕵️‍♂️</Text>
+        {/* <Text style={[styles.desc, textColorStyle]}>
+          scan barcode untuk cek harga barang
+        </Text> */}
+        <TouchableOpacity
+          style={[styles.button, buttonBackgroundColorStyle]}
+          onPress={() => router.push("/(karyawan)/home/camera-view")}
+        >
+          <MaterialCommunityIcons
+            color={Colors.light.tint2}
+            name="barcode-scan"
+            size={24}
+          />
+          <Text style={styles.buttonText}>Cek Harga Barang</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 }
@@ -41,10 +50,17 @@ export default function HomePage() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    paddingTop: 40,
+  },
+  title: {
+    fontSize: 32,
+    marginBottom: 30,
+    marginHorizontal: 20,
+  },
+  contentWrapper: {
+    flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    padding: 20,
   },
   desc: {
     fontSize: 16,
