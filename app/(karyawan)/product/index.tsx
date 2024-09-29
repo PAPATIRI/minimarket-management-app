@@ -5,7 +5,7 @@ import useTextColor from "@/hooks/useTextColorStyle";
 import * as SplashScreen from "expo-splash-screen";
 import { useFonts } from "expo-font";
 import { useEffect } from "react";
-import { Dimensions, StyleSheet, Text, View } from "react-native";
+import { Alert, Dimensions, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 SplashScreen.preventAutoHideAsync();
@@ -20,6 +20,7 @@ export default function ProductPage() {
   useEffect(() => {
     if (loaded || error) {
       SplashScreen.hideAsync();
+      // Alert.alert("failed using custom fonts");
     }
   }, [loaded, error]);
 

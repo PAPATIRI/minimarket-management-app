@@ -45,15 +45,7 @@
         "expo-font",
         {
           "fonts": [
-            "./assets/fonts/LeagueSpartan-Black.ttf",
-            "./assets/fonts/LeagueSpartan-Bold.ttf",
-            "./assets/fonts/LeagueSpartan-ExtraBold.ttf",
-            "./assets/fonts/LeagueSpartan-ExtraLight.ttf",
-            "./assets/fonts/LeagueSpartan-Light.ttf",
-            "./assets/fonts/LeagueSpartan-Medium.ttf",
-            "./assets/fonts/LeagueSpartan-Regular.ttf",
-            "./assets/fonts/LeagueSpartan-SemiBold.ttf",
-            "./assets/fonts/LeagueSpartan-Thin.ttf"
+            "./node_modules/@expo-google-fonts/league-spartan/LeagueSpartan_700Bold.ttf"
           ]
         }
       ]
