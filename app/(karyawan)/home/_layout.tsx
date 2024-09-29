@@ -11,9 +11,9 @@ export default function HomeStack() {
       <Stack.Screen
         name="camera-view"
         options={{
-          headerShown: true,
+          headerShown: false,
           title: "Barcode Scanner",
-          headerShadowVisible: true,
+          headerShadowVisible: false,
           headerStyle: {
             backgroundColor:
               colorScheme === "dark"

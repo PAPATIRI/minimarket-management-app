@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.dark.background2,
   },
   lightModeBackground: {
-    backgroundColor: Colors.light.background2,
+    backgroundColor: Colors.light.black,
   },
 });
 

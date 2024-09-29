@@ -29,7 +29,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     marginBottom: 10,
     gap: 12,
-    elevation: 2,
   },
   detailProductWrapper: {
     flexDirection: "row",

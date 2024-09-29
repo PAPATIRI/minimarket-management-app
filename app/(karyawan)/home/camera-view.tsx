@@ -2,7 +2,6 @@ import useBackgroundColor from "@/hooks/useBackgroundColorStyle";
 import {
   StyleSheet,
   Text,
-  Button,
   TouchableOpacity,
   View,
   useColorScheme,
@@ -10,12 +9,13 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CameraView, CameraType, useCameraPermissions } from "expo-camera";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Colors } from "@/constants/Colors";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { OverlayCamera } from "@/components/OverlayCamera";
+import { useNavigation, useRouter } from "expo-router";
 
 export default function CameraViewPage() {
-  const [facing, setFacing] = useState<CameraType>("back");
   const [permission, requestPermission] = useCameraPermissions();
   const [scannedData, setScannedData] = useState("");
 
@@ -23,6 +23,7 @@ export default function CameraViewPage() {
   const useBackgroundColorStyle = useBackgroundColor();
   const buttonBackgroundColor =
     colorScheme === "dark" ? Colors.dark.background2 : Colors.light.background2;
+  const router = useRouter();
 
   if (!permission) {
     // Camera permissions are still loading.
@@ -47,56 +48,26 @@ export default function CameraViewPage() {
     );
   }
 
-  function toggleCameraFacing() {
-    setFacing((current) => (current === "back" ? "front" : "back"));
-  }
-
   return (
-    <SafeAreaView style={[styles.container, useBackgroundColorStyle]}>
-      {scannedData && <Text>data scanned is {scannedData}</Text>}
-      <View style={styles.cameraWrapper}>
-        <CameraView
-          style={styles.camera}
-          facing={facing}
-          mode="video"
-          barcodeScannerSettings={{
-            barcodeTypes: [
-              "aztec",
-              "ean13",
-              "ean8",
-              "qr",
-              "pdf417",
-              "upc_e",
-              "datamatrix",
-              "code39",
-              "code93",
-              "itf14",
-              "codabar",
-              "code128",
-              "upc_a",
-            ],
-          }}
-          onBarcodeScanned={({ data, type }) => {
-            console.log("barcode data scanned", data, type);
-            setScannedData(data);
-            Alert.alert(
-              "data scanned!",
-              `type data is ${type} and the data is ${data}`
-            );
-          }}
-        >
-          <TouchableOpacity
-            style={styles.flipButtonCamera}
-            onPress={toggleCameraFacing}
-          >
-            <MaterialCommunityIcons
-              name="camera-flip-outline"
-              size={48}
-              color={Colors.light.background}
-            />
-          </TouchableOpacity>
-        </CameraView>
-      </View>
+    <SafeAreaView style={StyleSheet.absoluteFillObject}>
+      <CameraView
+        style={StyleSheet.absoluteFillObject}
+        facing={"back"}
+        onBarcodeScanned={({ data, type }) => {
+          console.log("barcode data scanned", data, type);
+          setScannedData(data);
+          router.push("/");
+        }}
+      />
+      <OverlayCamera />
+      <TouchableOpacity
+        style={styles.backButton}
+        onPress={() => {
+          router.back();
+        }}
+      >
+        <Ionicons name="arrow-back" size={24} color={Colors.dark.text2} />
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }
@@ -107,15 +78,10 @@ const styles = StyleSheet.create({
     padding: 20,
     alignItems: "center",
   },
-  cameraWrapper: {
-    borderRadius: 20,
-    overflow: "hidden",
-    width: "100%",
-    height: "80%",
-  },
-  camera: {
-    width: "100%",
-    height: "100%",
+  backButton: {
+    position: "absolute",
+    top: 70,
+    left: 20,
   },
   button: {
     flexDirection: "row",
@@ -131,13 +97,5 @@ const styles = StyleSheet.create({
   buttonText: {
     color: Colors.light.tint2,
     fontSize: 16,
-  },
-  flipButtonCamera: {
-    borderRadius: 100,
-    alignItems: "center",
-    justifyContent: "center",
-    alignSelf: "flex-end",
-    top: 20,
-    right: 20,
   },
 });

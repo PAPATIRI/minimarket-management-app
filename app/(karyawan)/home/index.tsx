@@ -1,3 +1,4 @@
+import SearchSvg from "@/components/svg-components/ScanSvg";
 import { Colors } from "@/constants/Colors";
 import useBackgroundColor from "@/hooks/useBackgroundColorStyle";
 import useButtonBackgroundColor from "@/hooks/useButtonBackgroundColorStyle";
@@ -6,6 +7,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import {
   Button,
+  Dimensions,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -19,24 +21,29 @@ export default function HomePage() {
   const buttonBackgroundColorStyle = useButtonBackgroundColor();
   const textColorStyle = useTextColor();
   const colorScheme = useColorScheme();
-  const buttonBackgroundColor =
-    colorScheme === "dark" ? Colors.dark.background2 : Colors.light.background2;
   const router = useRouter();
+  const { width, height } = Dimensions.get("window");
 
   return (
     <SafeAreaView style={[styles.container, backgroundColorStyle]}>
-      <Text style={[styles.title, textColorStyle]}>Welcome Dika 👋</Text>
+      {/* <Text style={[styles.title, textColorStyle]}>Welcome Dika 👋</Text> */}
       <View style={styles.contentWrapper}>
-        <Text style={{ fontSize: 100 }}>🕵️‍♂️</Text>
-        {/* <Text style={[styles.desc, textColorStyle]}>
-          scan barcode untuk cek harga barang
-        </Text> */}
+        <View
+          style={{
+            width: width * 0.6,
+            height: height * 0.25,
+            alignContent: "center",
+            justifyContent: "center",
+          }}
+        >
+          <SearchSvg />
+        </View>
         <TouchableOpacity
           style={[styles.button, buttonBackgroundColorStyle]}
           onPress={() => router.push("/(karyawan)/home/camera-view")}
         >
           <MaterialCommunityIcons
-            color={Colors.light.tint2}
+            color={Colors[colorScheme ? colorScheme : "light"].white}
             name="barcode-scan"
             size={24}
           />
@@ -59,8 +66,8 @@ const styles = StyleSheet.create({
   },
   contentWrapper: {
     flex: 1,
+    marginTop: 200,
     alignItems: "center",
-    justifyContent: "center",
   },
   desc: {
     fontSize: 16,
@@ -70,14 +77,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 16,
-    height: 50,
+    paddingVertical: 16,
     paddingHorizontal: 64,
     borderRadius: 100,
     elevation: 2,
-    marginTop: 20,
+    marginTop: 10,
   },
   buttonText: {
-    color: Colors.light.tint2,
     fontSize: 16,
+    color: Colors.light.white,
   },
 });

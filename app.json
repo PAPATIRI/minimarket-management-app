@@ -19,7 +19,12 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.papatiri.minimarketapp"
     },
     "web": {
       "bundler": "metro",
@@ -34,6 +39,22 @@
           "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera",
           "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone",
           "recordAudioAndroid": true
+        }
+      ],
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/LeagueSpartan-Black.ttf",
+            "./assets/fonts/LeagueSpartan-Bold.ttf",
+            "./assets/fonts/LeagueSpartan-ExtraBold.ttf",
+            "./assets/fonts/LeagueSpartan-ExtraLight.ttf",
+            "./assets/fonts/LeagueSpartan-Light.ttf",
+            "./assets/fonts/LeagueSpartan-Medium.ttf",
+            "./assets/fonts/LeagueSpartan-Regular.ttf",
+            "./assets/fonts/LeagueSpartan-SemiBold.ttf",
+            "./assets/fonts/LeagueSpartan-Thin.ttf"
+          ]
         }
       ]
     ],

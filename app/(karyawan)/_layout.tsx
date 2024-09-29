@@ -1,16 +1,17 @@
 import React from "react";
-import { Redirect, Tabs } from "expo-router";
+import { Redirect, Tabs, usePathname } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "react-native";
 
 export default function TabLayout() {
-  const session = true;
+  const session = false;
   const colorscheme = useColorScheme();
+  const pathname = usePathname();
 
-  if (!session) {
-    return <Redirect href={"/(auth)/login"} />;
-  }
+  // if (!session) {
+  //   return <Redirect href={"/(auth)/login"} />;
+  // }
 
   return (
     <Tabs
@@ -31,13 +32,14 @@ export default function TabLayout() {
           backgroundColor:
             colorscheme === "dark"
               ? Colors.dark.background2
-              : Colors.light.background2,
+              : Colors.light.background,
           height: 64,
           position: "absolute",
           bottom: 20,
           overflow: "hidden",
           borderRadius: 200,
-          marginHorizontal: 10,
+          marginHorizontal: 20,
+          display: pathname === "/home/camera-view" ? "none" : "flex",
         },
       }}
     >
@@ -55,10 +57,10 @@ export default function TabLayout() {
       <Tabs.Screen
         name="home"
         options={{
-          title: "Beranda",
+          title: "Cek Harga",
           headerShown: false,
           tabBarIcon: ({ color }) => (
-            <Feather name="home" size={24} color={color} />
+            <Feather name="search" size={24} color={color} />
           ),
         }}
       />
