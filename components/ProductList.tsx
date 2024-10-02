@@ -1,5 +1,4 @@
-import { Colors } from "@/constants/Colors";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import ProductItem from "./ProductItem";
 
 export default function ProductList() {
@@ -23,7 +22,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginBottom: 100,
-    paddingVertical: 20,
+    paddingTop: 10,
     paddingBottom: 50,
   },
 });

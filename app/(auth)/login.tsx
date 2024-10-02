@@ -31,7 +31,7 @@ export default function LoginPage() {
   };
 
   return (
-    <KeyboardAvoidingView style={[styles.container, backgroundColorStyle]}>
+    <KeyboardAvoidingView style={styles.container}>
       <View
         style={{
           width: width * 0.8,
@@ -43,14 +43,17 @@ export default function LoginPage() {
       >
         <LockSvg />
       </View>
-      <View style={styles.formWrapper}>
-        <Text style={styles.title}>Masuk Akun</Text>
+      <View className="p-5">
+        <Text className="text-3xl text-slate-700 font-bold capitalize mb-10">
+          Masuk Akun
+        </Text>
         <FormInput
           label="email"
           placeholder="contoh@email.com"
           value={email}
           onChangeText={(emailValue) => setEmail(emailValue)}
         />
+        <Space vertical size={20} />
         <FormInput
           label="kata sandi"
           placeholder="kata sandi"
@@ -70,13 +73,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     paddingTop: 100,
-  },
-  title: {
-    fontSize: 32,
-    textTransform: "capitalize",
-    marginBottom: 40,
-  },
-  formWrapper: {
-    padding: 20,
+    backgroundColor: Colors.slate[100],
   },
 });

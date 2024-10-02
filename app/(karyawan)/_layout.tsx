@@ -2,11 +2,9 @@ import React from "react";
 import { Redirect, Tabs, usePathname } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 import { Colors } from "@/constants/Colors";
-import { useColorScheme } from "react-native";
 
 export default function TabLayout() {
   const session = false;
-  const colorscheme = useColorScheme();
   const pathname = usePathname();
 
   // if (!session) {
@@ -17,22 +15,15 @@ export default function TabLayout() {
     <Tabs
       backBehavior={"history"}
       screenOptions={{
-        tabBarActiveTintColor:
-          colorscheme === "dark" ? Colors.dark.tint2 : Colors.light.tint2,
-        tabBarInactiveTintColor:
-          colorscheme === "dark" ? "#fefefe" : Colors.light.tabIconDefault,
-        // tabBarActiveBackgroundColor:
-        //   colorscheme === "dark" ? Colors.dark.tint2 : Colors.light.tint2,
+        tabBarActiveTintColor: Colors.slate[900],
+        tabBarInactiveTintColor: Colors.slate[500],
         tabBarItemStyle: {
           paddingVertical: 10,
           borderRadius: 20,
-          marginHorizontal: 30,
+          marginHorizontal: 20,
         },
         tabBarStyle: {
-          backgroundColor:
-            colorscheme === "dark"
-              ? Colors.dark.background2
-              : Colors.light.background,
+          backgroundColor: Colors.slate[100],
           height: 64,
           position: "absolute",
           bottom: 20,

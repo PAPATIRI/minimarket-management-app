@@ -40,14 +40,6 @@
           "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone",
           "recordAudioAndroid": true
         }
-      ],
-      [
-        "expo-font",
-        {
-          "fonts": [
-            "./node_modules/@expo-google-fonts/league-spartan/LeagueSpartan_700Bold.ttf"
-          ]
-        }
       ]
     ],
     "experiments": {
