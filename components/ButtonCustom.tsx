@@ -18,9 +18,16 @@ interface ButtonProps {
   title: string;
   onPress: () => void;
   style?: object;
+  disabled?: boolean;
 }
 
-const Button: React.FC<ButtonProps> = ({ type, title, onPress, style }) => {
+const Button: React.FC<ButtonProps> = ({
+  type,
+  title,
+  onPress,
+  style,
+  disabled,
+}) => {
   const backgroundColor = getBackgroundColor(type);
   const textColor = getTextColor(type);
   const borderColor = getBorderColor(type);
@@ -28,6 +35,7 @@ const Button: React.FC<ButtonProps> = ({ type, title, onPress, style }) => {
   return (
     <TouchableOpacity
       onPress={onPress}
+      disabled={disabled}
       style={[styles.button, { backgroundColor, borderColor }, style]}
     >
       <Text style={[styles.text, { color: textColor }]}>{title}</Text>

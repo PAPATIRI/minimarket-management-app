@@ -3,26 +3,36 @@ import { Colors } from "@/constants/Colors";
 import useBackgroundColor from "@/hooks/useBackgroundColorStyle";
 import useButtonBackgroundColor from "@/hooks/useButtonBackgroundColorStyle";
 import useTextColor from "@/hooks/useTextColorStyle";
-import { AntDesign, Feather, MaterialCommunityIcons } from "@expo/vector-icons";
+import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { Dimensions, StyleSheet, Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import * as SecureStore from "expo-secure-store";
+import { useAuth } from "@/context/AuthContext";
+import { useEffect } from "react";
 
 export default function HomePage() {
   const router = useRouter();
   const { width, height } = Dimensions.get("window");
-  const isLogin = true;
+  const { authState, logout } = useAuth();
+
+  const onLogout = async () => {
+    await logout();
+    router.replace("/(auth)/login");
+  };
 
   return (
     <SafeAreaView style={styles.container}>
       <View className="flex flex-row items-center px-10 justify-between">
         <Text className="text-xl text-slate-700 capitalize">
-          {isLogin ? "Selamat datang, Dika" : "Silahkan login"}
+          Selamat datang, Dika
         </Text>
-        {isLogin ? (
-          <AntDesign name="logout" size={22} color={Colors.rose[700]} />
+        {authState.authenticated ? (
+          <Pressable onPress={onLogout}>
+            <AntDesign name="logout" size={22} color={Colors.rose[700]} />
+          </Pressable>
         ) : (
-          <Pressable onPress={() => router.push("/(auth)/login")}>
+          <Pressable onPress={() => router.replace("/(auth)/login")}>
             <AntDesign name="login" size={22} color={Colors.slate[800]} />
           </Pressable>
         )}

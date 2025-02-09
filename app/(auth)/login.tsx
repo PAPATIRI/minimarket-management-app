@@ -3,9 +3,10 @@ import FormInput from "@/components/FormInput";
 import Space from "@/components/Space";
 import LockSvg from "@/components/svg-components/LockSvg";
 import { Colors } from "@/constants/Colors";
+import { useAuth } from "@/context/AuthContext";
 import useBackgroundColor from "@/hooks/useBackgroundColorStyle";
-import { useRouter } from "expo-router";
-import { useState } from "react";
+import { Redirect, router, useRouter } from "expo-router";
+import { useEffect, useState } from "react";
 import {
   Alert,
   Dimensions,
@@ -14,20 +15,35 @@ import {
   View,
   KeyboardAvoidingView,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function LoginPage() {
   const backgroundColorStyle = useBackgroundColor();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { login } = useAuth();
   const { width, height } = Dimensions.get("window");
 
-  const router = useRouter();
+  const onSubmit = async () => {
+    if (!email || !password) {
+      Alert.alert("Error", "tolong isi semua form login");
+      return;
+    }
 
-  const onSubmit = () => {
-    const data = { email: email, pasword: password };
-    Alert.alert(email, password);
-    // router.replace("/(karyawan)/home/")
+    if (loading) return;
+
+    try {
+      setLoading(true);
+      await login(email, password);
+      router.replace("/(karyawan)");
+    } catch (error) {
+      Alert.alert(
+        "Login Gagal",
+        error instanceof Error ? error.message : "An error occured"
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -62,7 +78,12 @@ export default function LoginPage() {
           onChangeText={(passwordValue) => setPassword(passwordValue)}
         />
         <Space vertical size={40} />
-        <Button type="primary" title="Masuk Akun" onPress={onSubmit} />
+        <Button
+          type="primary"
+          title={loading ? "loading..." : "Masuk Akun"}
+          onPress={onSubmit}
+          disabled={loading}
+        />
       </View>
     </KeyboardAvoidingView>
   );

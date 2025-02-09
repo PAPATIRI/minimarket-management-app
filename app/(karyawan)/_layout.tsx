@@ -4,12 +4,7 @@ import { Feather } from "@expo/vector-icons";
 import { Colors } from "@/constants/Colors";
 
 export default function TabLayout() {
-  const session = false;
   const pathname = usePathname();
-
-  // if (!session) {
-  //   return <Redirect href={"/(auth)/login"} />;
-  // }
 
   return (
     <Tabs
