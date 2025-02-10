@@ -1,9 +1,8 @@
-import FormInput from "@/components/FormInput";
 import ProductList from "@/components/ProductList";
 import { Colors } from "@/constants/Colors";
 import useDebounce from "@/hooks/useDebounce";
 import { Feather, MaterialIcons } from "@expo/vector-icons";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -12,6 +11,11 @@ export default function ProductPage() {
   const [query, setQuery] = useState("");
 
   const debouncedQuery = useDebounce(query, 500);
+
+  const searchHandler = () => {
+    setQuery("");
+    setShowForm(!showForm);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -32,7 +36,7 @@ export default function ProductPage() {
               </View>
             )}
           </View>
-          <Pressable onPress={() => setShowForm(!showForm)} className=" p-1">
+          <Pressable onPress={searchHandler} className=" p-1">
             {showForm ? (
               <MaterialIcons name="close" size={32} color={Colors.slate[500]} />
             ) : (

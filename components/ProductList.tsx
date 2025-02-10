@@ -17,6 +17,7 @@ import ErrorMessage from "./ErrorMessage";
 interface ProductListProps {
   searchQuery: string;
 }
+
 export default function ProductList({ searchQuery }: ProductListProps) {
   const [productsData, setProductsData] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -55,7 +56,6 @@ export default function ProductList({ searchQuery }: ProductListProps) {
           searchQuery ? `&search=${encodeURIComponent(searchQuery)}` : ""
         }`
       );
-      console.log("product data: ", response.data.data.data);
 
       setProductsData(response.data.data.data);
 
@@ -150,8 +150,11 @@ export default function ProductList({ searchQuery }: ProductListProps) {
       onContentSizeChange={handleContentSizeChange}
       onLayout={handleLayout}
     >
-      {productsData.map((productItem) => (
-        <ProductItem key={productItem.barcode_produk} product={productItem} />
+      {productsData.map((productItem, index) => (
+        <ProductItem
+          key={`${productItem.barcode_produk}-${index}`}
+          product={productItem}
+        />
       ))}
       {loadingMore && (
         <View className="p-4 items-center my-6">

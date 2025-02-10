@@ -68,3 +68,10 @@ export interface ProductApiResponse<T> {
   data: PaginationData<T>;
   message: string;
 }
+
+//types for user profile
+export interface UserProfile {
+  name: string;
+  email: string;
+  timezone: string;
+}

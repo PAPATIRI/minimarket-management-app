@@ -1,19 +1,54 @@
-import useBackgroundColor from "@/hooks/useBackgroundColorStyle";
 import { StyleSheet, Text, View, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CameraView, useCameraPermissions } from "expo-camera";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Colors } from "@/constants/Colors";
 import { Feather, Ionicons } from "@expo/vector-icons";
-import { OverlayCamera } from "@/components/OverlayCamera";
 import { useRouter } from "expo-router";
 import Space from "@/components/Space";
+import { Product } from "@/utils/types";
+import api from "@/utils/api";
+import { formatToRupiah } from "@/utils/numberFormatter";
 
 export default function CameraViewPage() {
   const [permission, requestPermission] = useCameraPermissions();
-  const [scannedData, setScannedData] = useState("");
+  const [scannedData, setScannedData] = useState<string | null>(null);
+  const [productData, setProductData] = useState<Product | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [canScan, setCanScan] = useState(true);
 
   const router = useRouter();
+
+  const fetchProductData = async (barcode_product: string) => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const response = await api.get(`/products/${barcode_product}`);
+      setProductData(response.data.data);
+    } catch (error) {
+      setError("produk tidak ditemukan");
+      setProductData(null);
+      setCanScan(false);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleBarcodeScanned = async ({ data }: { data: string }) => {
+    if (canScan && !isLoading) {
+      setCanScan(false);
+      setScannedData(data);
+      await fetchProductData(data);
+    }
+  };
+
+  const handleReset = () => {
+    setCanScan(true);
+    setScannedData(null);
+    setProductData(null);
+    setError(null);
+  };
 
   if (!permission) {
     return <View />;
@@ -63,37 +98,67 @@ export default function CameraViewPage() {
         <CameraView
           style={styles.cameraView}
           facing={"back"}
-          onBarcodeScanned={({ data, type }) => {
-            setScannedData(data);
-          }}
+          onBarcodeScanned={handleBarcodeScanned}
         />
       </View>
-      {scannedData && (
-        <View className="mt-10">
-          <View className="mb-4">
-            <Text className="text-lg text-slate-500 capitalize mb-1">
-              harga produk
+      <View className="flex-1 mt-6 justify-center">
+        {isLoading ? (
+          <Text className="text-xl text-slate-500 text-center">
+            mengambil data produk...
+          </Text>
+        ) : error ? (
+          <View className="flex-1 justify-center px-4">
+            <Text className="text-xl capitalize text-red-600 mb-12 text-center">
+              {error}
             </Text>
-            <Text className="text-4xl text-slate-800 font-bold capitalize">
-              Rp 36.000
-            </Text>
+            <Pressable
+              className="bg-slate-800 py-3 rounded-full items-center"
+              onPress={handleReset}
+            >
+              <Text className="text-slate-100 text-lg">Scan Ulang</Text>
+            </Pressable>
           </View>
-          <View className="mb-4">
-            <Text className="text-lg text-slate-500 capitalize mb-1">
-              nama produk
-            </Text>
-            <Text className="text-2xl text-slate-700 capitalize">
-              rokok sampurna mild isi 16
-            </Text>
+        ) : !scannedData ? (
+          <Text className="text-xl capitalize text-slate-700 text-center">
+            silahkan scan barcode produk
+          </Text>
+        ) : productData ? (
+          <View className="px-4 flex-1 justify-around">
+            <View className="gap-4">
+              <View className="mb-6">
+                <Text className="text-lg text-slate-500 capitalize mb-2">
+                  harga produk
+                </Text>
+                <Text className="text-4xl text-slate-800 font-bold capitalize">
+                  {formatToRupiah(productData.harga_jual_produk)}
+                </Text>
+              </View>
+              <View>
+                <Text className="text-lg text-slate-500 capitalize mb-0.5">
+                  nama produk
+                </Text>
+                <Text className="text-2xl text-slate-700 capitalize">
+                  {productData.nama_produk}
+                </Text>
+              </View>
+              <View>
+                <Text className="text-lg text-slate-500 capitalize mb-0.5">
+                  stok produk
+                </Text>
+                <Text className="text-2xl text-slate-700">
+                  {productData.stok_produk}
+                </Text>
+              </View>
+            </View>
+            <Pressable
+              className="bg-slate-800 py-3 rounded-full items-center mt-4"
+              onPress={handleReset}
+            >
+              <Text className="text-slate-100 text-lg">Scan Produk Lain</Text>
+            </Pressable>
           </View>
-          <View className="mb-4">
-            <Text className="text-lg text-slate-500 capitalize mb-1">
-              stok produk
-            </Text>
-            <Text className="text-2xl text-slate-700">200 Pcs</Text>
-          </View>
-        </View>
-      )}
+        ) : null}
+      </View>
     </SafeAreaView>
   );
 }
@@ -104,8 +169,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   cameraView: {
-    height: 200,
-    width: 350,
+    height: 300,
     borderRadius: 20,
     overflow: "hidden",
   },
