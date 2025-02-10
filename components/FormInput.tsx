@@ -41,7 +41,7 @@ const FormInput: React.FC<FormInputProps> = ({
         autoCapitalize={autoCapitalize}
         autoCorrect={autoCorrect}
         maxLength={maxLength}
-        className="border border-1 px-5 py-3 text-lg rounded-3xl border-slate-400 text-slate-600"
+        className="border border-1 bg-slate-100 px-5 py-3 text-lg rounded-3xl border-slate-400 text-slate-600"
         {...props}
       />
     </View>

@@ -1,15 +1,10 @@
 import SearchSvg from "@/components/svg-components/ScanSvg";
 import { Colors } from "@/constants/Colors";
-import useBackgroundColor from "@/hooks/useBackgroundColorStyle";
-import useButtonBackgroundColor from "@/hooks/useButtonBackgroundColorStyle";
-import useTextColor from "@/hooks/useTextColorStyle";
 import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { Dimensions, StyleSheet, Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import * as SecureStore from "expo-secure-store";
 import { useAuth } from "@/context/AuthContext";
-import { useEffect } from "react";
 
 export default function HomePage() {
   const router = useRouter();

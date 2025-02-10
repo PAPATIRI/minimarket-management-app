@@ -5,8 +5,8 @@ import LockSvg from "@/components/svg-components/LockSvg";
 import { Colors } from "@/constants/Colors";
 import { useAuth } from "@/context/AuthContext";
 import useBackgroundColor from "@/hooks/useBackgroundColorStyle";
-import { Redirect, router, useRouter } from "expo-router";
-import { useEffect, useState } from "react";
+import { router } from "expo-router";
+import { useState } from "react";
 import {
   Alert,
   Dimensions,
